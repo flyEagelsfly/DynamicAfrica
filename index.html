@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="KEYWORDS" content="internet, development, HDI, Africa, time slider, d3, dendrogram, leaflet">
+    <title>Internet usage Africa</title>
+  
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/leaflet.css"><!-- Import -->
+  
+    <!-- JavaScript -->
+	<script src="./js/jquery-3.2.1.js"></script> 	<!-- Import -->
+	<script src="./js/jquery-ui.js"></script>		<!-- Import -->
+    <script src="./js/d3.js"></script>				<!-- Import -->
+	<script src="./js/d3-scale.js"></script>		<!-- Import -->
+    <script src="./js/d3-array.js"></script>		<!-- Import -->
+    <script src="./js/d3-geo.js"></script>			<!-- Import -->
+	<script src="./js/d3-drag.js"></script>			<!-- Import -->
+	<script src="./js/leaflet.js"></script>			<!-- Import -->
+    <script src="./js/myJS.js"></script> <!-- In here are the functions used specificly for this page -->
+	
+	<!-- GeoJSON -->
+	<script src="./data/capitals.geojson"></script>
+	<script src="./data/HDI.geojson"></script>
+	<script src="./data/water_bodies.geojson"></script>
+	<script src="./data/symbols.geojson"></script>
+	
+  </head>
+
+  <body>	
+	<div id="map">
+		<div id="nav-mobile">  <!-- Switch between Map and Legend -->
+		</div>
+	</div>
+	<div id="legend">
+		<div id="nav-mobile"> <!-- Switch between Map and Legend -->
+		</div>
+		
+		<div id="title"> <!-- Title -->
+			<div id="innerTitle">
+				<b>Development of individuals using Internet connection between 2000 and 2016 in comparison with the Human Development Index of 2000</b>
+			</div>
+		</div>
+		
+		<div id="labels"> <!-- Labeling -->
+		  <input type="checkbox" id="names">
+		  <label for="names">Label country names<br></label>
+          <input type="checkbox" id="capitals">
+		  <label for="capitals">Label country capitals<br></label>
+		</div>
+		
+		<div id="types"> <!-- Types -->
+			<b>Types of Internet usage development</b>
+			<div id="lineChart">
+			</div>
+			<div id="selection">
+				<label for="NoTypes">Select no. of types  </label>
+				<select id= "NoTypes">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7" selected>7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+				</select> 
+				<br>
+			</div>
+			<div id="dendrogram">
+				<label for="open">See the dendrogramm for more information  </label>
+				<img id="open" src="./img/open.svg">
+			</div>
+		</div>
+		
+		<div id="percentage"> <!-- Percentage -->
+			<b>Internet usage</b>
+			 <svg height="100%" width="100%" margin="auto">
+				<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+			</svg> 
+		</div>
+		
+		<div id="population"> <!-- Population -->
+			<div id="popLabel">
+				<b>Population</b>
+			</div>
+			<div id="circle">
+				<svg id="resize"></svg>
+			</div>
+			<div id="resultPop">
+				<label id="inh">= 50 mio inhabitants</label>
+			</div>
+			<div>
+				<label>Resize the circle to see the corresp. population</label>
+			</div>
+		</div>
+		<div id="hdi"> <!-- HDI -->
+		</div>
+	</div>
+	
+			
+	<!-- The Modal which overlays page when Dendrogram is watched-->
+	<!-- https://www.w3schools.com/howto/howto_css_modals.asp -->
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div id="modal-content" class="modal-content">
+		<span class="close">&times;</span>
+	  </div>
+
+	</div>
+  </body> 
+
+</html>

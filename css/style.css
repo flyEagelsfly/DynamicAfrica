@@ -1,0 +1,249 @@
+/* ------------- HTML ----------------- */
+html { /* fill the html background with a nice image  */
+  background: url(../img/Africa.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  
+  width: 100%;
+  height: 100%;
+}
+/* ------------- BODY ----------------- */
+body { 
+  font-family: Helvetica, Arial, Sans-Serif; 	/* Sans-Serif for every text in the body */
+}
+
+/* -- central elements: MAP and LEGEND -- */
+#map {
+  background-color: #FFFFFF;
+  height: 100%;
+}
+
+#legend {
+  background-color: rgb(255, 217, 102);
+  height: 100%;
+}
+
+/* -- legend elements -- */
+#title {
+  width: 100%;
+  height: 10%;
+  border-bottom: 1px solid orange;
+}
+#innerTitle { /* innerTitle to realize margins for multiline text */
+  margin-left: 1%;
+  margin-top: 1%;
+}
+#labels {
+  width: 100%;
+  height: 7%;
+  border-bottom: 1px solid orange;
+}
+#types {
+  width: 99%;
+  height: 30%;
+  border-bottom: 1px solid orange;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+/*childs of types div */
+#lineChart {
+  width: 90%; 
+  height: 65%;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+} 
+
+#selection{
+  margin-left: 1%;
+  margin-top: 1%;
+}
+#dendrogram{
+  margin-left: 1%;
+  margin-top: 1%;
+}
+#open{
+  vertical-align: middle;
+  cursor:pointer;
+}
+/*---------------------*/
+
+#percentage {
+  width: 99%;
+  height: 15%;
+  border-bottom: 1px solid orange;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+
+#population {
+  width: 99%;
+  height: 18%;
+  border-bottom: 1px solid orange;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+/*childs of population div */
+#popLabel{
+  width: 100%;
+  height: 20%;
+}
+#circle {
+  width: 60%;
+  height: 65%;
+  float: left;
+}
+#resultPop {
+  width: 40%;
+  height: 65%;
+  float: right;
+}
+
+#hdi {
+  width: 100%;
+  height: 15%;
+}
+
+/* ------------- RESPONSIVE DESIGN ----------------- */
+
+/* css for devices bigger 1024 px */
+@media only screen and (min-width: 1024px) {
+  body{
+	width: 1024px; 		     					/* from 1024 px a device is considered as PC http://www.websitedimensions.com/*/
+    height: calc(100% - 15px); 					/* fill whole page but margins */
+    margin-left:auto;  							/* the body is centered in the page with that */
+    margin-right:auto;
+    margin-top:10px;
+    margin-bottom:5px;
+  }
+  
+  b{  /* BOLD FONTS */
+    font-size: 0.9vw; /* set the font-size to always be x% of the current viewport width, even on re-sizing! */
+  }
+
+  label{ /* LABELS */
+    font-size: 0.9vw; 
+  }
+
+  #map {
+	display: block;
+    width: 65%;  /* 70% of the body width */
+    float: left; /* float to left of body */
+  }
+  #legend {
+	display: block;
+	width: 35%;   /* 30% of the body width */
+	float: right; /* float to right of body */
+  }
+}
+
+/* css for devices smaller 1024 px */
+@media only screen and (max-width: 1024px) {
+  body{
+	width: 98%; 							
+    height: calc(100% - 15px); 		
+    margin-top:10px;
+    margin-bottom:5px;
+  }
+  
+  b{  /* BOLD FONTS */
+    font-size: 1.05vw; /* set the font-size to always be 1% of the current viewport width, even on re-sizing! */
+  }
+
+  label{ /* LABELS */
+    font-size: 1.1vw; 
+  }
+
+  #map {
+	width: 100%;
+  }
+  #legend {
+    display: none;
+	float: right;
+	width: calc(1024px * 0.3);
+  }
+  #nav-mobile {
+	cursor:pointer;
+	float: right;
+	margin-top:2%;
+	margin-right:3%;
+	background:#800000 url(../img/nav.svg) no-repeat center center;
+	height:40px;
+	width:40px;
+  }
+}
+
+
+/* ------------ DENDROGRAM OVERLAY ----------------- */
+ /* https://www.w3schools.com/howto/howto_css_modals.asp */
+ /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: #FFFFFF; 
+	background-attachment: fixed;
+    background-position: center; 
+	background-repeat: no-repeat;
+	background-size: 80% 90%;
+	padding: 20px;
+    margin: 1% auto; /* 15% from the top and centered */
+    border: 1px solid #000;
+    width: 80%; /* Could be more or less, depending on screen size */
+	height: 90%;
+}
+
+/* The Close Button */
+.close {
+    color: #000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #c30;
+    text-decoration: none;
+    cursor: pointer;
+} 
+
+
+
+/* ------------- MAP PROPERTIES ----------------- */
+
+.leaflet-tooltip.capital-labels{
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+}
+
+
+/* SVG properties */
+/* path {
+  fill: #ccc;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+path:hover {
+  fill: #ddd;
+} */
+
