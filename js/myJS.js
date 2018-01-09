@@ -4,8 +4,9 @@ window.onload = function () {
 }
 
 // VARIABLE DECLARATION
-var NoTypes = "7" // the default number of types, selectable by the user
-var TypeColor = ["#bf002f","#ff301f","#691b00","#bef400","#00ee5e","#02cf9e","#0091f1","#4100ac","#9f63ae","#c629e1"]
+var NoTypes = "7"; // the default number of types, selectable by the user
+var TypeColor = ["#bf002f","#ff301f","#691b00","#bef400","#00ee5e","#02cf9e","#0091f1","#4100ac","#9f63ae","#c629e1"];
+var year = 2000;
 
 
 
@@ -28,11 +29,16 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
     $( "#NoTypes" ).change(function(e) {
 		// get text of the selection field (1-10)
 		NoTypes = e.target.options[e.target.selectedIndex].text;
-		// REFRESH PLOT
+		
+		// REFRESH LINE PLOT
 		// delete old lines
 		refreshGraph();
 		// read specific json and add new lines
 		readJSONandPlot(NoTypes);
+		
+		// REFRESH TYPE COLORS OF THE SYMBOLS
+		styleSymbols(NoTypes, year);
+		
 	});
 	
 	
@@ -282,18 +288,23 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	// When the user clicks on the button, open the modal and set actual dendrogram
 	btn.onclick = function() {
 		modal.style.display = "block";
+		// you need to hide the map because it would overlay the dendrogram
+		$('#map').css('display', 'none');
 		$('#modal-content').css('background-image', 'url(./img/dendrogram/dendrogram' + NoTypes + '.svg)');
 	}
 
-	// When the user clicks on <span> (x), close the modal
+	// When the user clicks on <span> (x), close the modal, show the map
 	span.onclick = function() {
 		modal.style.display = "none";
+		$('#map').css('display', 'block');
+		display: none; 
 	}
 
-	// When the user clicks anywhere outside of the modal, close it
+	// When the user clicks anywhere outside of the modal, close it, show the map
 	window.onclick = function(event) {
 		if (event.target == modal) {
 			modal.style.display = "none";
+			$('#map').css('display', 'block');
 		}
 	} 
 	
@@ -397,8 +408,8 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 		});
 	}
 	
-	// set default to 2000
-	setHDIstyle(2016);
+	// set default to year 2000
+	setHDIstyle(year);
 	
 	//----------------------------------------------------------
 	// Load Waterbodies layer!
@@ -414,10 +425,108 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	}).addTo(map);
 	
 
+	//---------------------------------------------------------------------------------------
+	// Display the symbols dependent on internet usage and population in the respective year!
+	// (geojson symbols importet as js script in index.html)
 	
 	
-	map.attributionControl.addAttribution('Internet usage data: &copy; <a href="http://census.gov/">US Census Bureau</a>');
+	// http://www.d3noob.org/2014/03/leaflet-map-with-d3js-elements-that-are.html
+
+	 
+	function styleSymbols(noTypes, year){
+
+		// We pick up the SVG from the map object
+		 var svg = d3.select("#map").select("svg"),
+		 g = svg.append("g");
+	 
+		 d3.json("./data/symbols2.json", function(collection) {
+		  // Add a LatLng object to each item in the dataset
+		  collection.forEach(function(d) {
+			d.LatLng = new L.LatLng(d.lat, d.long)
+		  })
+		  
+		  var feature = g.selectAll("circle")
+		   .data(collection)
+		   .enter().append("circle")
+		   .style("stroke", "black")  
+		   .style("opacity", 0.9) 
+		   .style("fill", function(d){
+			   var typeSearch = "type" + noTypes
+			   // function getJsonIndex defined at very top of myJS.js
+			   // get the value of d.type1 for example
+			   var type = typeSearch.split('.').reduce(getJsonIndex, d)
+			   // return the color depending on the type
+			   return d3.rgb(TypeColor[type-1]);
+		   })
+		   .attr("r", function(d){	
+				var yearSearch = "pop" + year;
+			   // function getJsonIndex defined at very top of myJS.js
+			   // get the value of d.pop2000 for example
+			   var pop = yearSearch.split('.').reduce(getJsonIndex, d)
+			   var popInMillion = pop/1000000;
+			   var size = -0.0009 * Math.pow(popInMillion,2) + 0.4247 * popInMillion + 12.656 
+
+			   // return the radius depending on the population of the given year
+			   return size;
+		   });  
+
+			  
+		  map.on("zoomend", update);
+		  update();
+
+		  function update() {
+		   feature.attr("transform", 
+		   function(d) { 
+			   return "translate("+ map.latLngToLayerPoint(d.LatLng).x + ","+ map.latLngToLayerPoint(d.LatLng).y +")";
+		   })
+		  }
+		})
+	 }
+	 
+	 // set default number of types to 7, year to 2000
+	 styleSymbols(NoTypes,year);
+	 
+	 
+	 
+ /*    data = [{"label":"one", "value":20}, 
+            {"label":"two", "value":50}, 
+            {"label":"three", "value":30}];
+    
+    var vis = d3.select("body")
+        .append("svg:svg")              //create the SVG element inside the <body>
+        .data([data])                   //associate our data with the document
+            .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag
+            .attr("height", h)
+        .append("svg:g")                //make a group to hold our pie chart
+            .attr("transform", "translate(" + r + "," + r + ")")    //move the center of the pie chart from 0, 0 to radius, radius
+
+    var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
+        .outerRadius(r);
+
+    var pie = d3.layout.pie()           //this will create arc data for us given a list of values
+        .value(function(d) { return d.value; });    //we must tell it out to access the value of each element in our data array
+
+    var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
+        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
+        .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
+            .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
+                .attr("class", "slice");    //allow us to style things in the slices (like text)
+
+        arcs.append("svg:path")
+                .attr("fill", function(d, i) { return color(i); } ) //set the color for each slice to be chosen from the color function defined above
+                .attr("d", arc);                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
+
+        arcs.append("svg:text")                                     //add a label to each slice
+                .attr("transform", function(d) {                    //set the label's origin to the center of the arc
+                //we have to make sure to set these before calling arc.centroid
+                d.innerRadius = 0;
+                d.outerRadius = r;
+                return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
+            })
+            .attr("text-anchor", "middle")                          //center the text on it's origin
+            .text(function(d, i) { return data[i].label; });        //get the label from our original data array
 	
+	 */
 	
 	//----------------------------------------------------------
 	// Load capitals layer!
@@ -449,22 +558,57 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	// display/hide capitals
 	// make the functions globaly (outside $(document).ready) available
 	window.displayCapitals = function displayCapitals(){
-		
+		capitals_labels.addTo(map);
+		capitals_layer.addTo(map);
 	}
 	window.hideCapitals = function hideCapitals(){
-
+		map.removeLayer(capitals_labels);
+		map.removeLayer(capitals_layer);
 	}
-		
+	
+	
+	//----------------------------------------------------------
+	// Load Country names!
+	// (geojson symbols importet as js script in index.html)
+	var countries_labels = L.geoJSON(symbols, {
+		pointToLayer: function(feature,latlng){
+			label = String(feature.properties.country).toUpperCase() // Must convert to string, .bindTooltip can't use straight 'feature.properties.attribute'
+			return new L.CircleMarker(latlng, {
+				radius: 0,
+				fillColor: '#000000'
+			}).bindTooltip(label, {
+				permanent: true, 
+				direction: "center",
+				opacity: 1,
+				className: "capital-labels"
+			}).openTooltip();
+		}
+	});		
+	
+	// display/hide country names
+	// make the functions globaly (outside $(document).ready) available
+	window.displayCountries = function displayCountries(){
+		countries_labels.addTo(map);
+	}
+	window.hideCountries = function hideCountries(){
+		map.removeLayer(countries_labels);
+	}
+	
+	
+	//----------------------------------------------------------
+	// add data sources to the map
+	map.attributionControl.addAttribution('Internet usage data: &copy; <a href="http://census.gov/">US Census Bureau</a>');
+
 }); 
 
 
 // --------- HANDLE LABEL CHECKBOXES --------------------
 $(document).on('click', "#names", function(){
 	if($(this).is(':checked')){
-		alert("label");
+		displayCountries();
 	}
 	else{
-		alert("no label");		
+		hideCountries();		
 	}
 });
 
