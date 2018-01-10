@@ -6,8 +6,7 @@ window.onload = function () {
 // VARIABLE DECLARATION
 var NoTypes = "7"; // the default number of types, selectable by the user
 var TypeColor = ["#bf002f","#ff301f","#691b00","#bef400","#00ee5e","#02cf9e","#0091f1","#4100ac","#9f63ae","#c629e1"];
-var year = 2000;
-
+var year = 2000; // the default year, selectable by the user
 
 
 // function to read json keys with strings
@@ -16,9 +15,27 @@ function getJsonIndex(obj,i) {
 	return obj[i]
 }
 // the reduce function calls the function and returns last output
-//'0.X2000'.split('.').reduce(getJsonIndex, json) // json not yet defined
-// working example in function setHDIstyle()
+// for this json:
 
+//var json =
+//[
+//{"cluster":5,"X2000":0,"X2001":0.0071,...}
+//{"cluster":6,"X2000":0,"X2001":0.0093,...}
+//{"cluster":4,"X2000":0,"X2001":0.0062,...}
+//{"cluster":3,"X2000":0,"X2001":0.014,...}
+//{"cluster":2,"X2000":0,"X2001":0.0132,...}
+//{"cluster":1,"X2000":0,"X2001":0.0405,...}
+//]
+
+//'0.X2001'.split('.').reduce(getJsonIndex, json) 
+
+// would return 0.0071
+
+//'1.cluster'.split('.').reduce(getJsonIndex, json) 
+
+// would return 6
+				
+				
 				
 				
 $(document).ready(function() {   // wait till HTML DOM is finished loading (using JQuery)
