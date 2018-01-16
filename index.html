@@ -21,17 +21,24 @@
     <script src="./js/d3-geo.js"></script>			<!-- Import -->
 	<script src="./js/d3-drag.js"></script>			<!-- Import -->
 	<script src="./js/leaflet.js"></script>			<!-- Import -->
+	<script src="./js/leaflet-semicircle.js"></script><!-- Import -->
+	<script src="./js/rangeslider.js"></script>		<!-- Import -->
     <script src="./js/myJS.js"></script> <!-- In here are the functions used specificly for this page -->
 	
 	<!-- GeoJSON -->
 	<script src="./data/capitals.geojson"></script>
 	<script src="./data/HDI.geojson"></script>
 	<script src="./data/water_bodies.geojson"></script>
-	<script src="./data/symbols.geojson"></script>
+	<script src="./data/countryNames.geojson"></script>
 	
   </head>
 
   <body>	
+	<div id="timeslider">
+		<img id="play" src="./img/pause.svg">
+		<input id="slider" type="range" min="2000" max="2016" step="1" value="300"><br>
+		<output id="Year">2000</output>
+	</div>
 	<div id="map">
 		<div id="nav-mobile">  <!-- Switch between Map and Legend -->
 		</div>
@@ -42,7 +49,7 @@
 		
 		<div id="title"> <!-- Title -->
 			<div id="innerTitle">
-				<b>Development of individuals using Internet connection between 2000 and 2016 in comparison with the Human Development Index of 2000</b>
+				<b>Development of Internet usage, population size and human development index in Africa between 2000 and 2016</b>
 			</div>
 		</div>
 		
@@ -80,27 +87,36 @@
 		</div>
 		
 		<div id="percentage"> <!-- Percentage -->
-			<b>Internet usage</b>
-			 <svg height="100%" width="100%" margin="auto">
-				<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-			</svg> 
+			<div id="per_title">
+				<b>Symbol legend</b>
+			</div>
+			<div id="per_circle">
+				<img id="internet_legend" src="./img/Internet_Legend.svg">
+			</div>
+			<div id="per_description">
+				<label>A country with an internet development of type 1, internet usage of ~30% and 110 mio inhabitants</label>
+			</div>
 		</div>
+		
 		
 		<div id="population"> <!-- Population -->
 			<div id="popLabel">
-				<b>Population</b>
+				<b>Do you want to know what the circle size stands for?</b>
 			</div>
 			<div id="circle">
 				<svg id="resize"></svg>
 			</div>
 			<div id="resultPop">
-				<label id="inh">= 50 mio inhabitants</label>
+				<label id="inh">= 186.00 mio</label><br>
+				<label id="inh_lab">inhabitants</label><br>
 			</div>
 			<div>
-				<label>Resize the circle to see the corresp. population</label>
+				<p>Resize the circle to see the corresp. population! The map needs to be in full extent for a valid population size</p>
 			</div>
 		</div>
 		<div id="hdi"> <!-- HDI -->
+			<b>Human Development Index</b>
+			<img id="hdi_legend" src="./img/HDI_Legend.svg">
 		</div>
 	</div>
 	

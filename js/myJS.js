@@ -7,6 +7,8 @@ window.onload = function () {
 var NoTypes = "7"; // the default number of types, selectable by the user
 var TypeColor = ["#bf002f","#ff301f","#691b00","#bef400","#00ee5e","#02cf9e","#0091f1","#4100ac","#9f63ae","#c629e1"];
 var year = 2000; // the default year, selectable by the user
+var zoomlevel = 14
+
 
 
 // function to read json keys with strings
@@ -34,7 +36,6 @@ function getJsonIndex(obj,i) {
 //'1.cluster'.split('.').reduce(getJsonIndex, json) 
 
 // would return 6
-				
 				
 				
 				
@@ -234,7 +235,11 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	var circleSvg = $("#circle"); // circle is the <div>
 	var width = circleSvg.width();
 	var height = circleSvg.height();
-	var startRadius = height/3;
+	
+	// the biggest possible circle
+	var PopNigeria2016 = 186
+	// formula to format the radius in meter (map) to radius in px
+	var startRadius = 0.3217 * PopNigeria2016 + 8.7905;
 	
 	// fit the svg to create into it's div
 	var svg = d3.select("#resize"), // resize is the <svg>
@@ -251,7 +256,7 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	  };
 	});
 
-	var color = "#999999"
+	var colorStroke = "#bf002f"
 
 	svg.selectAll("circle")
 	  .data(circles)
@@ -259,7 +264,9 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 		.attr("cx", function(d) { return d.x; })
 		.attr("cy", function(d) { return d.y; })
 		.attr("r", radius)
-		.style("fill", color)
+		.style("stroke", colorStroke)
+		.style("fill", "#FFFFFF")
+		.style("opacity", 0.5)
 		.call(d3.drag()
 			.on("start", dragstarted)
 			.on("drag", dragged)
@@ -280,12 +287,23 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	  
 	  // update circle radius and text
 	  d3.select(this).attr("r", radius = startRadius - distanceMoved);
-	  $("#inh").text((startRadius - distanceMoved).toString() + ' mio inhabitants');
-    }
+	  var radiusPX = startRadius - distanceMoved;
+	  // formel to calculate population in million depending on radius
+	  var correspondingPop = 3.1014 * radiusPX - 27.03
+	  correspondingPop = Math.round(correspondingPop * 100) / 100
+	  
+	  if (correspondingPop > 0){  
+		$("#inh").text("= " + correspondingPop + ' mio');
+	  }
+	  else {
+		$("#inh").text("= 0 mio");
+	  }
+	}
 
 	function dragended(d) {
 	  d3.select(this).classed("active", false);
 	}
+
 	
 	
 	//---------- DENDROGRAM OVERLAY ------------------------
@@ -323,8 +341,9 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 			modal.style.display = "none";
 			$('#map').css('display', 'block');
 		}
-	} 
-	
+	}   
+
+
 
 	//---------- Mapping ------------------------
 	
@@ -377,7 +396,22 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 
 	// swap back to standard zoom
 	// map.options.crs = L.CRS.EPSG3857;
+	
+	// save actual zoom levels
+	map.on("zoomend", function(){
+		zoomlevel = map.getZoom();
+		// population circle only valid for zoomlevel 14:
+		if (zoomlevel == 14){
+			$("#inh").css("text-decoration", "none");  
+			$("#inh_lab").css("text-decoration", "none"); 
+		}
+		else{
+			$("#inh").css("text-decoration", "line-through");  
+			$("#inh_lab").css("text-decoration", "line-through"); 
+		}
 
+	});
+	
 	
 	// -------------------------------------------------------------
 	// Load Human Development Index layer and fit map to it's center!
@@ -395,7 +429,7 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 
 	
 	// define Style dynamicly depending on actual year
-	function getColor(hdi) {
+	window.getColor = function getColor(hdi) {
 		return hdi > 0.7 ? '#993404' :
 			   hdi > 0.6  ? '#d95f0e' :
 			   hdi > 0.5  ? '#fe9929' :
@@ -405,7 +439,7 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 						    '#FFFFFF';
 	}
 	
-	function setHDIstyle (year){
+	window.setHDIstyle = function setHDIstyle (year){
 		HDI_layer.eachLayer(function (layer) {
 		  
 		  // call the HDI for the selected year for each country
@@ -447,103 +481,129 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	// (geojson symbols importet as js script in index.html)
 	
 	
+	// This one just works with circles.. Realized with Semicircles using the Leaflet Semicircle extension
 	// http://www.d3noob.org/2014/03/leaflet-map-with-d3js-elements-that-are.html
+	// https://bl.ocks.org/mbostock/1305111
 
 	 
-	function styleSymbols(noTypes, year){
-
-		// We pick up the SVG from the map object
-		 var svg = d3.select("#map").select("svg"),
-		 g = svg.append("g");
-	 
-		 d3.json("./data/symbols2.json", function(collection) {
-		  // Add a LatLng object to each item in the dataset
-		  collection.forEach(function(d) {
-			d.LatLng = new L.LatLng(d.lat, d.long)
-		  })
+/* 	window.styleSymbols = function styleSymbols(noTypes, year){
+		
+		var svg = d3.select("#map").select("svg"),
+		g = svg.append("g");
+		
+		d3.json("./data/symbols2.json", function(data) {
+			// Add a LatLng object to each item in the dataset
+			data.forEach(function(d) {
+				d.LatLng = new L.LatLng(d.lat, d.long)
+			})
 		  
-		  var feature = g.selectAll("circle")
-		   .data(collection)
-		   .enter().append("circle")
-		   .style("stroke", "black")  
-		   .style("opacity", 0.9) 
-		   .style("fill", function(d){
-			   var typeSearch = "type" + noTypes
-			   // function getJsonIndex defined at very top of myJS.js
-			   // get the value of d.type1 for example
-			   var type = typeSearch.split('.').reduce(getJsonIndex, d)
-			   // return the color depending on the type
-			   return d3.rgb(TypeColor[type-1]);
-		   })
-		   .attr("r", function(d){	
-				var yearSearch = "pop" + year;
-			   // function getJsonIndex defined at very top of myJS.js
-			   // get the value of d.pop2000 for example
-			   var pop = yearSearch.split('.').reduce(getJsonIndex, d)
-			   var popInMillion = pop/1000000;
-			   var size = -0.0009 * Math.pow(popInMillion,2) + 0.4247 * popInMillion + 12.656 
+		  
+			var feature = g.selectAll("circle")  
+			    .data(data)
+			    .enter().append("circle")
+			    .style("stroke", "black")  
+			    .style("opacity", 0.9) 
+			    .style("fill", function(d){
+					var typeSearch = "type" + noTypes
+					// function getJsonIndex defined at very top of myJS.js
+					// get the value of d.type1 for example
+					var type = typeSearch.split('.').reduce(getJsonIndex, d)
+					// return the color depending on the type
+					return d3.rgb(TypeColor[type-1]);
+				})
+				.attr("r", function(d){	
+					var yearSearch = "pop" + year;
+				    // function getJsonIndex defined at very top of myJS.js
+				    // get the value of d.pop2000 for example
+				    var pop = yearSearch.split('.').reduce(getJsonIndex, d)
+				    var popInMillion = pop/1000000;
+				    var size = -0.0009 * Math.pow(popInMillion,2) + 0.4247 * popInMillion + 12.656 
 
-			   // return the radius depending on the population of the given year
-			   return size;
-		   });  
+				    // return the radius depending on the population of the given year
+					return size;
+				});  
 
-			  
-		  map.on("zoomend", update);
-		  update();
+			update();  
+			map.on("zoomend", update);
 
-		  function update() {
-		   feature.attr("transform", 
-		   function(d) { 
-			   return "translate("+ map.latLngToLayerPoint(d.LatLng).x + ","+ map.latLngToLayerPoint(d.LatLng).y +")";
-		   })
-		  }
+			function update() {
+				feature.attr("transform", 
+				function(d) { 
+					return "translate("+ map.latLngToLayerPoint(d.LatLng).x + ","+ map.latLngToLayerPoint(d.LatLng).y +")";
+				})
+			}
 		})
-	 }
-	 
-	 // set default number of types to 7, year to 2000
-	 styleSymbols(NoTypes,year);
-	 
-	 
-	 
- /*    data = [{"label":"one", "value":20}, 
-            {"label":"two", "value":50}, 
-            {"label":"three", "value":30}];
-    
-    var vis = d3.select("body")
-        .append("svg:svg")              //create the SVG element inside the <body>
-        .data([data])                   //associate our data with the document
-            .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag
-            .attr("height", h)
-        .append("svg:g")                //make a group to hold our pie chart
-            .attr("transform", "translate(" + r + "," + r + ")")    //move the center of the pie chart from 0, 0 to radius, radius
+	} */
 
-    var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
-        .outerRadius(r);
-
-    var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-        .value(function(d) { return d.value; });    //we must tell it out to access the value of each element in our data array
-
-    var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
-        .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-            .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
-                .attr("class", "slice");    //allow us to style things in the slices (like text)
-
-        arcs.append("svg:path")
-                .attr("fill", function(d, i) { return color(i); } ) //set the color for each slice to be chosen from the color function defined above
-                .attr("d", arc);                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
-
-        arcs.append("svg:text")                                     //add a label to each slice
-                .attr("transform", function(d) {                    //set the label's origin to the center of the arc
-                //we have to make sure to set these before calling arc.centroid
-                d.innerRadius = 0;
-                d.outerRadius = r;
-                return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-            })
-            .attr("text-anchor", "middle")                          //center the text on it's origin
-            .text(function(d, i) { return data[i].label; });        //get the label from our original data array
 	
-	 */
+	window.styleSymbols = function styleSymbols(noTypes, year){ 
+	
+		// !!! Remove all existing circles in the map
+		map.eachLayer(function (layer) {
+			if (layer instanceof L.Circle){
+				map.removeLayer(layer);
+			}
+		});
+	
+		d3.json("./data/symbols.json", function(data) {
+			// Add a LatLng object to each item in the dataset
+			data.forEach(function(d) {
+				
+
+				// !!!set color depending on the user defined number of types 
+				
+				var typeSearch = "type" + noTypes
+				var type = typeSearch.split('.').reduce(getJsonIndex, d)
+				// set the color depending on the type
+				var col = d3.rgb(TypeColor[type-1]);
+				
+				// !!!set radius depending on the population size at the given year
+				
+				var yearSearch = "pop" + year;
+				var pop = yearSearch.split('.').reduce(getJsonIndex, d);
+				var popMillion = pop / 1000000
+				//var size = -15.089 * popMillion * popMillion + 6641.2 * popMillion + 86778;
+				var size = 3804.3 * popMillion + 92391
+				
+				// !!!set stop angle of semicircle depending on the internet usage
+
+				var yearSearch = "int" + year;
+				var internet = yearSearch.split('.').reduce(getJsonIndex, d);
+				var angle = internet * 3.6;
+				
+
+				// create a whole circle with transparent fill
+				L.semiCircle([d.lat, d.long], {
+					radius: size,
+					startAngle: 0,
+					stopAngle: 360,
+					fillOpacity: 0.8,
+					fillColor: "#FFFFFF",
+					stroke: true,
+					color: col,
+					weight: 1
+				}).addTo(map)
+				
+				// overlay the part of the circle representing the internet usage
+				L.semiCircle([d.lat, d.long], {
+					radius: size,
+					startAngle: 0,
+					stopAngle: angle,
+					fillColor: col,
+					fillOpacity: 0.9,
+					stroke: false
+				}).addTo(map)
+				
+			})
+		})
+	}
+		
+	
+	
+	// set default number of types to 7, year to 2000
+	styleSymbols(NoTypes,year);
+	
+	
 	
 	//----------------------------------------------------------
 	// Load capitals layer!
@@ -587,7 +647,7 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	//----------------------------------------------------------
 	// Load Country names!
 	// (geojson symbols importet as js script in index.html)
-	var countries_labels = L.geoJSON(symbols, {
+	var countries_labels = L.geoJSON(countryNames, {
 		pointToLayer: function(feature,latlng){
 			label = String(feature.properties.country).toUpperCase() // Must convert to string, .bindTooltip can't use straight 'feature.properties.attribute'
 			return new L.CircleMarker(latlng, {
@@ -611,11 +671,6 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 		map.removeLayer(countries_labels);
 	}
 	
-	
-	//----------------------------------------------------------
-	// add data sources to the map
-	map.attributionControl.addAttribution('Internet usage data: &copy; <a href="http://census.gov/">US Census Bureau</a>');
-
 }); 
 
 
@@ -637,6 +692,112 @@ $(document).on('click', "#capitals", function(){
 		hideCapitals();		
 	}
 });
+
+
+
+//---------- TIMESLIDER ------------------------  
+// without animation
+/* $(document).on('input', 'input[type="range"]', function(e) {
+  $("#Year").text(e.currentTarget.value);
+  year = e.currentTarget.value;
+  styleSymbols(NoTypes,year);
+  setHDIstyle(year);
+}); */
+
+// https://codepen.io/andreruffert/pen/MwXezm
+
+// with animation
+$(function() {
+  
+  var $document = $(document);
+  var $rangeslider = $('input[type=range]');
+  console.log($rangeslider);
+  var timelinePosition = 2000;
+  var mediaPlayerState;
+  
+  // Simulate process of a media player 
+  // each second the value of the timelinePosition will increase by 1
+  var tick = function(callback) {
+    mediaPlayerState = window.setTimeout(function() {
+      timelinePosition++
+      callback();
+    }, 1000);
+    return mediaPlayerState;
+  };
+  
+  // Start the pseudo media player
+  var mediaPlayerPlay = function() {
+	// get new timelinePosition for each second
+    tick(mediaPlayerPlay);
+	
+	// stop animation if Position reaches the year 2016
+	if (timelinePosition == 2016){
+		clearTimeout(mediaPlayerState);
+	}
+	// update the slider
+    updateTimeline(timelinePosition);
+	
+	// refresh the symbols and the year label
+	year = timelinePosition;
+	styleSymbols(NoTypes,year);
+    setHDIstyle(year);
+	$("#Year").text(timelinePosition);
+  };
+  
+  // Pause the pseudo media player
+  var mediaPlayerPause = function() {
+	// you can clear the mediaPlayerStates "setTimeout"
+    clearTimeout(mediaPlayerState);
+  };
+  
+  // Update the timeline (time elapsed etc.)
+  var updateTimeline = function(value) {
+    $rangeslider.val(value).change();
+  };
+
+  // Action Handler:
+  $document
+	// make the slider moveble when pressing on it 
+    .on('input', 'input[type="range"]', function(e) {
+      // Update timelinePosition, output
+      timelinePosition = e.currentTarget.value;
+      $("#Year").text(e.currentTarget.value);
+	  year = e.currentTarget.value;
+	  styleSymbols(NoTypes,year);
+      setHDIstyle(year);
+    })
+	// pause the slider animation when pressed
+    .on('mousedown', '#slider', function() {
+      mediaPlayerPause();
+	  $("#play").attr("src", "./img/play.svg")
+    })
+	// continue slider animation when released
+    .on('mouseup', '#slider', function() {
+      //mediaPlayerPlay();
+    })
+	// paused if pressed on pause button
+	.on('click', '#play', function() {
+      
+	  var state = $("#play").attr("src");
+
+	  // when running
+	  if (state == "./img/pause.svg"){
+		//change the background image
+		$("#play").attr("src", "./img/play.svg")
+		mediaPlayerPause();
+	  }
+	  
+	  // when not running
+	  else {
+		//change the background image
+		$("#play").attr("src", "./img/pause.svg")
+		mediaPlayerPlay();
+	  }
+    });
+  
+  mediaPlayerPlay();
+});
+
 
 
 
