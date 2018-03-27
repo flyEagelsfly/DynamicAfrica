@@ -9,5 +9,12 @@ This website was developed using Mozilla Firefox which is capable of dynamicly l
   1. Open your command prompt. Check if Python is installed (python -V). If not install (IMPORTANT: check the "Add Python xxx to PATH" checkbox)
   2. Navigate to the downloaded DynamicAfrica folder (cd ./DynamicAfrica)
   3. Enter the command to start up the server in that directory: 
-  If Python version returned above is 3.X\npython -m http.server\nIf Python version returned above is 2.X\npython -m SimpleHTTPServer
+  
+  If Python version returned above is 3.X
+  
+  python -m http.server
+  
+  If Python version returned above is 2.X
+  
+  python -m SimpleHTTPServer
   4. By default, this will run the contents of the directory on a local web server, on port 8000. You can go to this server by going to the URL localhost:8000
