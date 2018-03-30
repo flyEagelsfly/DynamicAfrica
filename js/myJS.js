@@ -382,7 +382,7 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 
 	// CREATE MAP WITH CUSTOM ZOOM LEVELS
 	
-	// create custon zoom levels
+	// create custom zoom levels
 	// https://gist.github.com/croxton/6248586
 	L.CRS.CustomZoom = L.extend({}, L.CRS.EPSG3857, {
 		scale: function (zoom) {
@@ -429,6 +429,7 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 
 	
 	// define Style dynamicly depending on actual year
+	// "window" to define the function for the whole page
 	window.getColor = function getColor(hdi) {
 		return hdi > 0.7 ? '#993404' :
 			   hdi > 0.6  ? '#d95f0e' :
@@ -479,62 +480,6 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	//---------------------------------------------------------------------------------------
 	// Display the symbols dependent on internet usage and population in the respective year!
 	// (geojson symbols importet as js script in index.html)
-	
-	
-	// This one just works with circles.. Realized with Semicircles using the Leaflet Semicircle extension
-	// http://www.d3noob.org/2014/03/leaflet-map-with-d3js-elements-that-are.html
-	// https://bl.ocks.org/mbostock/1305111
-
-	 
-/* 	window.styleSymbols = function styleSymbols(noTypes, year){
-		
-		var svg = d3.select("#map").select("svg"),
-		g = svg.append("g");
-		
-		d3.json("./data/symbols2.json", function(data) {
-			// Add a LatLng object to each item in the dataset
-			data.forEach(function(d) {
-				d.LatLng = new L.LatLng(d.lat, d.long)
-			})
-		  
-		  
-			var feature = g.selectAll("circle")  
-			    .data(data)
-			    .enter().append("circle")
-			    .style("stroke", "black")  
-			    .style("opacity", 0.9) 
-			    .style("fill", function(d){
-					var typeSearch = "type" + noTypes
-					// function getJsonIndex defined at very top of myJS.js
-					// get the value of d.type1 for example
-					var type = typeSearch.split('.').reduce(getJsonIndex, d)
-					// return the color depending on the type
-					return d3.rgb(TypeColor[type-1]);
-				})
-				.attr("r", function(d){	
-					var yearSearch = "pop" + year;
-				    // function getJsonIndex defined at very top of myJS.js
-				    // get the value of d.pop2000 for example
-				    var pop = yearSearch.split('.').reduce(getJsonIndex, d)
-				    var popInMillion = pop/1000000;
-				    var size = -0.0009 * Math.pow(popInMillion,2) + 0.4247 * popInMillion + 12.656 
-
-				    // return the radius depending on the population of the given year
-					return size;
-				});  
-
-			update();  
-			map.on("zoomend", update);
-
-			function update() {
-				feature.attr("transform", 
-				function(d) { 
-					return "translate("+ map.latLngToLayerPoint(d.LatLng).x + ","+ map.latLngToLayerPoint(d.LatLng).y +")";
-				})
-			}
-		})
-	} */
-
 	
 	window.styleSymbols = function styleSymbols(noTypes, year){ 
 	
