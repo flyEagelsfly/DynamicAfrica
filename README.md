@@ -13,11 +13,11 @@ The basemap is a choropleth map based on a prepared Polygon-GeoJSON (using QGIS)
 
 #### Leaflet-Semicircle
 
-<img align="left" width="125" height="125" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/semiC.gif">While the basemap can be implemented using core leaflet functionality the symbols (pie charts, circle diagrams) are realized using the Leaflet-Semicircle extension (https://github.com/jieter/Leaflet-semicircle). A circle with white transparent fill and fitting stroke is overlaid with a semicircle representing the actual amount of population using the internet. The size of the circle corresponds to the actual population size. The color represents the type of internet usage development. Data and positioning coordinates are stored in a JSON file.
+<img align="left" width="125" height="125" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/semiC.gif">While the basemap can be implemented using core leaflet functionality, the symbols (pie charts, circle diagrams) are realized using the Leaflet-Semicircle extension (https://github.com/jieter/Leaflet-semicircle). A circle with white transparent fill and fitting stroke is overlaid with a semicircle representing the actual amount of population using the internet. The size of the circle corresponds to the actual population size. The color represents the type of internet usage development. Data and positioning coordinates are stored in a JSON file.
 
 #### Rangeslider
 
-<img align="right" width="125" height="125" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/slider.gif">To enable the animations a timeslider would be needed if time data is stored in a "date" datatype. Thus in this case the dates (years) are only attributes a Rangeslider (http://rangeslider.js.org/) from 2000-2016 is appropriate. The slider starts automatically when the website is opened and stops when the year 2016 is reached but the user can interact with the slider, too. Each time a 'tick' is reached functions are called to restyle map elements whose styles depend on the year (choropleth [HDI], symbols [internet usage, population])   
+<img align="right" width="125" height="125" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/slider.gif">To enable the animations a timeslider would be needed if time data is stored in a "date" datatype. Thus in this case the dates (years) are only attributes, a Rangeslider (http://rangeslider.js.org/) from 2000-2016 is appropriate. The slider starts automatically when the website is opened and stops when the year 2016 is reached but the user can interact with the slider, too. Each time a 'tick' is reached functions are called to restyle map elements whose styles depend on the year (choropleth [HDI], symbols [internet usage, population])   
 
 #### Labeling country names and capitals
 
@@ -26,7 +26,7 @@ The basemap is a choropleth map based on a prepared Polygon-GeoJSON (using QGIS)
 
 ---
 
-#### Browser characteristics for dynamicly loading local JSON files
+### Browser characteristics for dynamicly loading local JSON files
 
 This website was developed using Mozilla Firefox which is capable of dynamicly loading local JSON files as done in the D3 and leaflet parts. Other browsers like Google Crome prohibit such an asynchronous call of local files. To test or change the application in browsers like Chrome you need to run the content in a testserver. An example for setting up a testserver using Python is discribed in the following (adapted from https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server):
 
