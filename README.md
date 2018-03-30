@@ -1,7 +1,7 @@
 # DynamicAfrica
 Study project to implement a web mapping application for the visualisation of time dependent statistical data. The development of "percentage of population using the internet", "human development index (HDI)" and "population size" between 2000 and 2016 are shown. Additionally types (classes) of similar internet usage developments have been calculated and are visualized, while the number of types can be selected by the user.   
 
-![Alt Text](https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/ezgif.com-video-to-gif.gif)
+![Alt Text](https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/html.gif)
 
 ## Map
 
@@ -13,7 +13,7 @@ The basemap is a choropleth map based on a prepared GeoJSON-Polygon (using QGIS)
 
 #### Leaflet-Semicircle
 
-<img align="left" width="100" height="100" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/ezgif.com-video-to-gif.gif">
+<img align="left" width="100" height="100" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/semiC.gif">
 
 While the basemap can be implemented using core leaflet functionality the symbols (pie charts, circle diagrams) are realized using the Leaflet-Semicircle extension (https://github.com/jieter/Leaflet-semicircle). A circle with white transparent fill and fitting stroke is overlaid with a semicircle representing the actual amount of population using the internet. The size the circle corresponds to the actual population size. The color represents the type of internet usage development.   
 
