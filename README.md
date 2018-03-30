@@ -21,7 +21,7 @@ The basemap is a choropleth map based on a prepared Polygon-GeoJSON (using QGIS)
 
 #### Labeling country names and capitals
 
-<img align="left" width="300" height="326" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/labels.gif">
+<img align="left" width="300" height="326" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/labels.gif">Using the label checkboxes in the legend the country names and the capital names can be displayed on the map. For both datasets Point-GeoJSONs store the position where the label should be as well as the text. For realization a CircleMarker is combined with a permanent Tooltip. The layers are generated when the page is loaded and added (addTo) respectively removed (removeLayer) from the map if the user ticks/unticks the checkbox.
 
 ---
 
