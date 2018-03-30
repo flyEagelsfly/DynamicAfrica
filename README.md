@@ -13,7 +13,7 @@ The basemap is a choropleth map based on a prepared Polygon-GeoJSON (using QGIS)
 
 #### Leaflet-Semicircle
 
-<img align="left" width="125" height="125" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/semiC.gif">While the basemap can be implemented using core leaflet functionality, the symbols (pie charts, circle diagrams) are realized using the Leaflet-Semicircle extension (https://github.com/jieter/Leaflet-semicircle). A circle with white transparent fill and fitting stroke is overlaid with a semicircle representing the actual amount of population using the internet. The size of the circle corresponds to the actual population size. The color represents the type of internet usage development. Data and positioning coordinates are stored in a JSON file.
+<img align="right" width="125" height="125" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/semiC.gif">While the basemap can be implemented using core leaflet functionality, the symbols (pie charts, circle diagrams) are realized using the Leaflet-Semicircle extension (https://github.com/jieter/Leaflet-semicircle). A circle with white transparent fill and fitting stroke is overlaid with a semicircle representing the actual amount of population using the internet. The size of the circle corresponds to the actual population size. The color represents the type of internet usage development. Data and positioning coordinates are stored in a JSON file.
 
 #### Rangeslider
 
@@ -21,7 +21,7 @@ The basemap is a choropleth map based on a prepared Polygon-GeoJSON (using QGIS)
 
 #### Labeling country names and capitals
 
-<img align="left" width="300" height="326" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/labels.gif">Using the label checkboxes in the legend the country names and the capital names can be displayed on the map. For both datasets Point-GeoJSONs store the position where the label should be as well as the text. For realization a CircleMarker is combined with a permanent Tooltip. The layers are generated when the page is loaded and added (addTo) respectively removed (removeLayer) from the map if the user ticks/unticks the checkbox.
+<img align="right" width="300" height="326" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/labels.gif">Using the label checkboxes in the legend the country names and the capital names can be displayed on the map. For both datasets Point-GeoJSONs store the position where the label should be as well as the text. For realization a CircleMarker is combined with a permanent Tooltip. The layers are generated when the page is loaded and added (addTo) respectively removed (removeLayer) from the map if the user ticks/unticks the checkbox.
 </br></br></br></br></br></br></br></br>
 
 ## Legend
@@ -30,7 +30,7 @@ D3 (https://d3js.org/) is used for most interactive mapping functionalities.
 
 #### D3 line chart for internet usage development
 
-<img align="right" width="320" height="238" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/linechart.gif">This realization is a combination of the examples https://gist.github.com/benjchristensen/2579599 and https://bl.ocks.org/d3noob/23e42c8f67210ac6c678db2cd07a747e. The normalised development of the percentage of population using the internet (2000 -> 0, 2016 -> 1) were classified into 2-10 classes of countries with similar internet development. The mean value of each year was calculated for cohesive countries. The connection of those means are visualised in the line chart. For all selectable number of classes a JSON is prepared defining new lines. Additionaly, the Symbology.json describing the semicircle symbols contains information about the exact class a country underlies depending the number of classes. This information is used to color the semicircle symbols depending on the line color of the associated type of internet development.
+<img align="right" width="320" height="238" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/linechart.gif">This realization is a combination of the examples https://gist.github.com/benjchristensen/2579599 and https://bl.ocks.org/d3noob/23e42c8f67210ac6c678db2cd07a747e. The normalised development of the percentage of population using the internet (2000 -> 0, 2016 -> 1) were classified into 2-10 diverse classes of countries with similar internet development. The mean value of each year was calculated for cohesive countries. The connection of those means are visualised in the line chart. For all selectable number of classes a JSON is prepared defining new lines. Additionaly, the Symbology.json describing the semicircle symbols contains information about the exact class a country underlies depending the number of classes. This information is used to color the semicircle symbols depending on the line color of the associated type of internet development.
 
 ---
 
