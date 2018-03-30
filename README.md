@@ -21,7 +21,7 @@ The basemap is a choropleth map based on a prepared Polygon-GeoJSON (using QGIS)
 
 #### Labeling country names and capitals
 
-<img align="left" width="100" height="130" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/labels.gif">
+![Alt Text](https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/labels.gif)
 
 ---
 
