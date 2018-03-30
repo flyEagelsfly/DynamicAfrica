@@ -30,7 +30,7 @@ D3 (https://d3js.org/) is used for most interactive mapping functionalities.
 
 #### D3 line chart for internet usage development
 
-<img align="right" width="300" height="326" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/linechart.gif">
+<img align="right" width="320" height="238" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/linechart.gif">
 
 ---
 
