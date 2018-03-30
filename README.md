@@ -5,15 +5,17 @@ Study project to implement a web mapping application for the visualisation of ti
 
 ## Map
 
-Leaflet (http://leafletjs.com/) is used for the mapping functionalities
+Leaflet (http://leafletjs.com/) is used for the mapping functionalities.
 
 #### Basemap
 
-The basemap is a choropleth map based on a prepared GeoJSON-Polygon (using QGIS) with the countries as shapes and the respective HDI for the years 2000-2016 as data. Additionally the African Great Lakes are visualized on top as an own layer for orientation. 
+The basemap is a choropleth map based on a prepared GeoJSON-Polygon (using QGIS) with the countries as shapes and the respective HDI for the years 2000-2016 as data. Additionally the African Great Lakes are visualized on top as an own layer for orientation. For an appropriate zoom functionality the default zoom functionality of Leaflet is extended to custom zoom levels suitable for the continent of africa (https://gist.github.com/croxton/6248586). 
 
 #### Leaflet-Semicircle
 
 <img align="left" width="100" height="100" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/ezgif.com-video-to-gif.gif">
+
+While the basemap can be implemented using core leaflet functionality the symbols (pie charts, circle diagrams) are realized using the Leaflet-Semicircle extension (https://github.com/jieter/Leaflet-semicircle). A circle with white transparent fill and fitting stroke is overlaid with a semicircle representing the actual amount of population using the internet. The size of both circles correspond to the actual population size. The colors represent the type of internet development.   
 
 ---
 
