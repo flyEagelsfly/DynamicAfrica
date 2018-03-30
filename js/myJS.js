@@ -555,6 +555,7 @@ $(document).ready(function() {   // wait till HTML DOM is finished loading (usin
 	// (geojson capitals importet as js script in index.html)
 	
 	//https://gis.stackexchange.com/questions/245621/how-to-label-geojson-points-in-leaflet
+	//https://gis.stackexchange.com/questions/241739/removing-tooltip-label-border-completely-in-leaflet-js-map/266962#266962
 	var capitals_labels = L.geoJSON(capitals, {
 		pointToLayer: function(feature,latlng){
 			label = String(feature.properties.NAME) // Must convert to string, .bindTooltip can't use straight 'feature.properties.attribute'
