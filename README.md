@@ -19,6 +19,10 @@ The basemap is a choropleth map based on a prepared Polygon-GeoJSON (using QGIS)
 
 <img align="right" width="125" height="125" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/slider.gif">To enable the animations a timeslider would be needed if time data is stored in a "date" datatype. Thus in this case the dates (years) are only attributes a Rangeslider (http://rangeslider.js.org/) from 2000-2016 is appropriate. The slider starts automatically when the website is opened and stops when the year 2016 is reached but the user can interact with the slider, too. Each time a 'tick' is reached functions are called to restyle map elements whose styles depend on the year (choropleth [HDI], symbols [internet usage, population])   
 
+#### Labeling country names and capitals
+
+<img align="left" width="100" height="130" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/labels.gif">
+
 ---
 
 #### Browser characteristics for dynamicly loading local JSON files
