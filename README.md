@@ -3,8 +3,17 @@ Study project to implement a web mapping application for the visualisation of ti
 
 ![Alt Text](https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/ezgif.com-video-to-gif.gif)
 
+---
+
+## Map
+
+#### Basemap
+
+#### Leaflet-Semicircle
 
 <img align="left" width="100" height="100" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/ezgif.com-video-to-gif.gif">
+
+---
 
 #### Browser characteristics for dynamicly loading local JSON files
 
