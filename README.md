@@ -13,9 +13,7 @@ The basemap is a choropleth map based on a prepared Polygon-GeoJSON (using QGIS)
 
 #### Leaflet-Semicircle
 
-<img align="left" width="110" height="110" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/semiC.gif">
-
-While the basemap can be implemented using core leaflet functionality the symbols (pie charts, circle diagrams) are realized using the Leaflet-Semicircle extension (https://github.com/jieter/Leaflet-semicircle). A circle with white transparent fill and fitting stroke is overlaid with a semicircle representing the actual amount of population using the internet. The size the circle corresponds to the actual population size. The color represents the type of internet usage development. Data and positioning coordinates are stored in a JSON file.
+<img align="left" width="110" height="110" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/semiC.gif">While the basemap can be implemented using core leaflet functionality the symbols (pie charts, circle diagrams) are realized using the Leaflet-Semicircle extension (https://github.com/jieter/Leaflet-semicircle). A circle with white transparent fill and fitting stroke is overlaid with a semicircle representing the actual amount of population using the internet. The size the circle corresponds to the actual population size. The color represents the type of internet usage development. Data and positioning coordinates are stored in a JSON file.
 
 #### Rangeslider
 
