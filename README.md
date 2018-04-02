@@ -34,7 +34,7 @@ D3 (https://d3js.org/) is used for most interactive mapping functionalities.
 
 #### Interactive symbol size legend
 
-<img align="right" width="320" height="238" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/circle.gif">This realization was implemented by hacking this example https://bl.ocks.org/mbostock/22994cc97fefaeede0d861e6815a847e to the required functionality. The map symbols are scaled proportional depending on the population size. Thus the depicted population of each circle can be derived by a linear function dependent on the radius. This function is derived through the datapoints (minimum mapping radius / minimum population) and (maximum mapping radius / maximum population). 
+<img align="right" width="320" height="188" src="https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/circle.gif">This realization was implemented by hacking this example https://bl.ocks.org/mbostock/22994cc97fefaeede0d861e6815a847e to the required functionality. The map symbols are scaled proportional depending on the population size. Thus the depicted population of each circle can be derived by a linear function dependent on the radius. This function is derived through the datapoints (minimum mapping radius / minimum population) and (maximum mapping radius / maximum population). 
 
 ---
 
