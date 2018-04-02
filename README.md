@@ -35,6 +35,7 @@ D3 (https://d3js.org/) is used for most interactive mapping functionalities.
 #### Dendrogram overlay (Modal image overlay)
 
 As additional information about the similarity of countries regarding their internet development it's possible to view the dendrogram of the hierarchical classification. Cohesive countries are encapsulated in colorized rectangles depending on the selected number of classes. This is implemented using a modal (https://www.w3schools.com/howto/howto_css_modals.asp).
+
 ![Alt Text](https://github.com/lukasalexanderweber/DynamicAfrica/blob/master/gif/modal.gif)
 
 #### Interactive symbol size legend
